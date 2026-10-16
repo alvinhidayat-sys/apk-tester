@@ -266,8 +266,98 @@ header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;po
 .kita-legacy i{display:block;width:92px;height:46px;background:var(--kl) center/contain no-repeat}
 @media(max-width:640px){.kita-legacy{right:calc(74px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));gap:6px}.kita-legacy b{font-size:9.5px}.kita-legacy i{width:72px;height:36px}}
 @media print{.kita-legacy{display:none!important}}
-</style></head><body>
-<header><a class="btnlink hback" id="hbk" href="#" aria-label="Kembali ke Beranda"><span class="bk">←</span><span class="bt"> Kembali ke Beranda</span></a><div class="hero" id="hr"><video id="hv" src="journey.webm" poster="journey-poster.png" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video></div><div class="brand"><b id="bt">Command Center</b><span id="bs">UIW Papua dan Papua Barat</span></div><h1 id="ht">Dashboard Kinerja dan Administrasi Command Center</h1><p id="hp"></p></header>
+</style>
+<style id="appui">
+/* ===== Revisi tampilan aplikasi Android: landing page, bottom bar, welcome screen ===== */
+:root{--nav:64px;--hh:110px}
+body{background-color:var(--bg);
+ background-image:
+  radial-gradient(70vmax 70vmax at 108% -12%,rgba(82,195,220,.24),transparent 62%),
+  radial-gradient(60vmax 60vmax at -18% 108%,rgba(248,196,32,.18),transparent 62%),
+  linear-gradient(color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px),
+  linear-gradient(90deg,color-mix(in srgb,var(--line) 55%,transparent) 1px,transparent 1px);
+ background-size:auto,auto,34px 34px,34px 34px;background-attachment:fixed}
+:root[data-theme="dark"] body{background-image:
+  radial-gradient(70vmax 70vmax at 108% -12%,rgba(82,195,220,.16),transparent 62%),
+  radial-gradient(60vmax 60vmax at -18% 108%,rgba(248,196,32,.1),transparent 62%),
+  linear-gradient(color-mix(in srgb,var(--line) 45%,transparent) 1px,transparent 1px),
+  linear-gradient(90deg,color-mix(in srgb,var(--line) 45%,transparent) 1px,transparent 1px)}
+/* sudut "The Legacy of" dipindah menjadi welcome screen */
+body>.kita-legacy{display:none!important}
+#thm{display:none!important}
+
+/* header ringkas */
+.hero{display:none!important}
+header{padding:12px 16px 10px}
+.brand{min-height:0!important;padding-bottom:7px;margin-bottom:8px}
+.brand b{font-size:clamp(19px,6vw,30px)}
+.brand span{font-size:clamp(11px,3.3vw,13px);margin-top:2px}
+.brand+h1{font-size:clamp(12px,3.7vw,16px)}
+
+/* landing: hanya ilustrasi + nama menu, pas satu layar */
+#home{display:flex;flex-direction:column;min-height:calc(100dvh - var(--hh));
+ padding:12px 12px calc(var(--nav) + 12px + env(safe-area-inset-bottom,0px))}
+#home[hidden]{display:none}
+#home .cards{flex:1;display:grid;gap:12px;
+ grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(120px,1fr))}
+#home .mc{min-height:0;border-radius:20px}
+#home .mc svg{flex:1 1 0;min-height:0;width:calc(100% - 16px);height:auto;margin:8px 8px 0;border-radius:14px}
+#home .mc .mb{flex:none;padding:8px 8px 11px;align-items:center;justify-content:center;text-align:center;min-height:2.9em}
+#home .mc .mb p,#home .mc .mb .go{display:none}
+#home .mc h2{align-self:center;text-align:center;font-size:clamp(12.5px,3.7vw,15.5px);line-height:1.25;padding-bottom:2px}
+#home .hnote{margin:8px 0 0;font-size:11px;justify-content:center;text-align:center;opacity:.75}
+@media(min-width:760px){
+ #home .cards{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(170px,1fr));gap:18px}
+ #home .mc h2{font-size:17px}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #home .cards{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:minmax(110px,1fr);gap:10px}
+ #home .mc h2{font-size:11.5px}
+}
+
+/* halaman layar penuh (Absensi/Cuti) tidak tertutup bottom bar */
+#abs iframe,#cut iframe{height:calc(100vh - var(--nav) - env(safe-area-inset-bottom,0px))!important;
+ height:calc(100dvh - var(--nav) - env(safe-area-inset-bottom,0px))!important}
+main#app,main#cb{padding-bottom:calc(var(--nav) + 28px + env(safe-area-inset-bottom,0px))}
+
+/* bottom bar */
+#bnav{position:fixed;left:0;right:0;bottom:0;z-index:7;display:flex;align-items:stretch;gap:2px;
+ height:calc(var(--nav) + env(safe-area-inset-bottom,0px));padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));
+ background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -10px 24px -12px var(--sh-d)}
+#bnav a,#bnav button{flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+ padding:3px 1px;border:0;border-radius:14px;background:none;box-shadow:none;color:var(--mut);
+ font:600 10.5px/1.1 Montserrat,"Segoe UI",system-ui,sans-serif;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+#bnav a:active,#bnav button:active{transform:scale(.95);box-shadow:none}
+#bnav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#bnav .on{color:var(--cyt);background:var(--tint-cy);box-shadow:var(--inset)}
+#bnav .sun{display:none}
+:root[data-theme="dark"] #bnav .sun{display:block}:root[data-theme="dark"] #bnav .moon{display:none}
+@media(min-width:900px){#bnav{left:50%;right:auto;width:min(560px,92vw);transform:translateX(-50%);bottom:12px;border-radius:22px;border:0;box-shadow:var(--raise);height:var(--nav);padding-bottom:6px}}
+#dsh{position:fixed;inset:0;z-index:8}#dsh[hidden]{display:none}
+#dsh .dbk{position:absolute;inset:0;background:var(--scrim)}
+#dsh .dbox{position:absolute;left:12px;right:12px;bottom:calc(var(--nav) + 12px + env(safe-area-inset-bottom,0px));max-width:420px;margin:0 auto;
+ background:var(--sf);border-radius:22px;box-shadow:var(--raise);padding:8px;display:flex;flex-direction:column;gap:4px}
+#dsh .dbox a{display:flex;align-items:center;min-height:52px;padding:0 16px;border-radius:16px;color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+#dsh .dbox a:active{background:var(--tint-cy)}
+
+/* welcome screen */
+#splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:var(--bg);
+ background-image:radial-gradient(60vmax 60vmax at 50% 45%,rgba(82,195,220,.2),transparent 65%);
+ transition:opacity .4s ease,visibility .4s}
+#splash.out{opacity:0;visibility:hidden}
+#splash .kita-legacy{position:static!important;display:flex;flex-direction:column;align-items:center;gap:16px;opacity:1;animation:spIn .7s cubic-bezier(.22,.8,.2,1) both}
+#splash .kita-legacy b{font-size:14px;letter-spacing:.28em;text-transform:uppercase}
+#splash .kita-legacy i{width:min(62vw,250px);height:min(31vw,125px)}
+@keyframes spIn{from{opacity:0;transform:translateY(12px) scale(.95)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#splash .kita-legacy{animation:none}}
+</style>
+</head><body>
+<div id="splash" aria-hidden="true"><div class="kita-legacy"><b>The Legacy of</b><i></i></div></div>
+<script>(function(){var t0=Date.now(),s=document.getElementById('splash');function go(){if(!s||s.__d)return;s.__d=1;s.classList.add('out');setTimeout(function(){s.remove()},500)}
+function chk(){setTimeout(go,Math.max(0,1500-(Date.now()-t0)))}
+if(document.readyState==='complete')chk();else addEventListener('load',chk);setTimeout(go,3500)})();</script>
+
+<header><a class="btnlink hback" id="hbk" href="#" aria-label="Kembali ke Beranda"><span class="bk">←</span><span class="bt"> Kembali ke Beranda</span></a><div class="hero" id="hr"><video id="hv" src="journey.webm" poster="journey-poster.png" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video></div><div class="brand"><b id="bt">Command Center - SCADA</b><span id="bs">UIW Papua dan Papua Barat</span></div><h1 id="ht">Dashboard Kinerja dan Administrasi Command Center</h1><p id="hp"></p></header>
 <div id="fl" aria-hidden="true"></div>
 <div class="kita-legacy" aria-hidden="true"><b>The Legacy of</b><i></i></div>
 <main id="home">
@@ -3687,6 +3777,35 @@ document.addEventListener('click',e=>{if(e.defaultPrevented||e.button||e.metaKey
  if(rm.matches||!Element.prototype.animate)return;
  e.preventDefault();card?morphIn(card,card.getAttribute('href').slice(1)):morphOut(back)},true);
 setInterval(()=>{if(busy&&!document.querySelector('.mph')){busy=false}},1500);
+})();
+</script>
+
+<div id="dsh" hidden><div class="dbk"></div><div class="dbox"><a href="#ctt">Durasi Create CTT</a><a href="#marking">Durasi Manual Marking</a><a href="#dispatch">Durasi Manual Dispatch</a></div></div>
+<nav id="bnav" aria-label="Menu utama">
+<a href="#" data-h=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Beranda</span></a>
+<button type="button" id="bdur" data-h="ctt,marking,dispatch"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg><span>Durasi</span></button>
+<a href="#callback" data-h="callback"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>Callback</span></a>
+<a href="#cuti" data-h="cuti"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Cuti</span></a>
+<a href="#absensi" data-h="absensi"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4h6v3H9zM9 14l2 2 4-4"/></svg><span>Absensi</span></a>
+<button type="button" id="btema" aria-label="Ganti tema"><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span>Tema</span></button>
+</nav>
+<script>
+(function(){
+ var rt=document.documentElement,hd=document.querySelector('header'),hr=document.getElementById('hr'),
+     nav=document.getElementById('bnav'),dsh=document.getElementById('dsh');
+ if(hr)hr.hidden=true;                       /* video header tidak ikut dibundel di aplikasi */
+ function m(){rt.style.setProperty('--hh',hd.offsetHeight+'px')}
+ m();addEventListener('resize',m);addEventListener('orientationchange',m);
+ if(window.ResizeObserver)new ResizeObserver(m).observe(hd);
+ setTimeout(function(){dispatchEvent(new Event('resize'))},60);
+ function act(){var h=location.hash.slice(1);
+  nav.querySelectorAll('[data-h]').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-h').split(',').indexOf(h)>-1)});}
+ function closeSheet(){dsh.hidden=true}
+ document.getElementById('bdur').addEventListener('click',function(){dsh.hidden=!dsh.hidden});
+ dsh.querySelector('.dbk').addEventListener('click',closeSheet);
+ dsh.addEventListener('click',function(e){if(e.target.closest('a'))closeSheet()});
+ document.getElementById('btema').addEventListener('click',function(){var b=document.getElementById('thm');if(b)b.click()});
+ addEventListener('hashchange',function(){closeSheet();act()});act();
 })();
 </script>
 </body></html>

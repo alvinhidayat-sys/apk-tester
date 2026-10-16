@@ -20,6 +20,14 @@ HTML dimuat dari `app/src/main/assets/index.html`.
 Ganti `app/src/main/assets/index.html` dengan HTML terbaru, naikkan `versionCode`/`versionName`
 di `app/build.gradle`, lalu build ulang.
 
+## Tampilan v1.1
+- Landing page: kartu menu hanya ilustrasi + nama menu, 2 kolom x 3 baris pas satu layar (tanpa skrol; landscape/tablet menyesuaikan).
+- Header: teks "Command Center - SCADA".
+- Bottom bar: Beranda, Durasi (CTT / Marking / Dispatch), Callback, Cuti, Absensi, Tema.
+- Welcome screen "The Legacy of" + logo KITA selama ±1,5 detik saat aplikasi dibuka.
+- Latar belakang bergaya panel SCADA (grid halus + cahaya), mengikuti tema terang/gelap.
+- Video header (journey.webm) tidak ikut dibundel sehingga disembunyikan.
+
 ## Fitur native yang ditambahkan
 - Unduhan Excel/PDF/Word (blob) otomatis tersimpan ke folder **Download** dan langsung dibuka.
 - `window.print()` (lembar A4 SPKL, dll.) memakai dialog cetak Android (bisa "Simpan sebagai PDF").
