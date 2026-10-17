@@ -286,13 +286,25 @@ body{background-color:var(--bg);
 body>.kita-legacy{display:none!important}
 #thm{display:none!important}
 
-/* header ringkas */
-.hero{display:none!important}
-header{padding:12px 16px 10px}
-.brand{min-height:0!important;padding-bottom:7px;margin-bottom:8px}
-.brand b{font-size:clamp(19px,6vw,30px)}
-.brand span{font-size:clamp(11px,3.3vw,13px);margin-top:2px}
-.brand+h1{font-size:clamp(12px,3.7vw,16px)}
+/* header ringkas (video header tetap tampil di kanan) */
+header{overflow-x:clip}
+@media(max-width:640px){
+ :root{--hw:clamp(96px,29vw,124px)}
+ header{padding:12px 14px 10px}
+ .hero{top:8px;right:12px}
+ .brand{padding-bottom:6px;margin-bottom:8px;min-height:calc(var(--hw)*9/16 + 2px)}
+ .brand b{font-size:clamp(14.5px,4.1vw,24px)}
+ .brand span{font-size:clamp(10.5px,3.1vw,13px);margin-top:2px}
+ .brand+h1{font-size:clamp(12px,3.7vw,16px)}
+}
+@media(orientation:landscape) and (max-height:520px){
+ :root{--hw:104px}
+ header{padding:8px calc(var(--hw) + 30px) 6px 16px}
+ .hero{right:14px}
+ .brand{min-height:0;padding-bottom:4px;margin-bottom:4px}
+ .brand b{font-size:22px}
+ .brand+h1{font-size:13px}
+}
 
 /* landing: hanya ilustrasi + nama menu, pas satu layar */
 #home{display:flex;flex-direction:column;min-height:calc(100dvh - var(--hh));
@@ -355,7 +367,7 @@ main#app,main#cb{padding-bottom:calc(var(--nav) + 28px + env(safe-area-inset-bot
 <div id="splash" aria-hidden="true"><div class="kita-legacy"><b>The Legacy of</b><i></i></div></div>
 <script>(function(){var t0=Date.now(),s=document.getElementById('splash');function go(){if(!s||s.__d)return;s.__d=1;s.classList.add('out');setTimeout(function(){s.remove()},500)}
 function chk(){setTimeout(go,Math.max(0,3000-(Date.now()-t0)))}
-if(document.readyState==='complete')chk();else addEventListener('load',chk);setTimeout(go,3500)})();</script>
+if(document.readyState==='complete')chk();else addEventListener('load',chk);setTimeout(go,5000)})();</script>
 
 <header><a class="btnlink hback" id="hbk" href="#" aria-label="Kembali ke Beranda"><span class="bk">←</span><span class="bt"> Kembali ke Beranda</span></a><div class="hero" id="hr"><video id="hv" src="journey.webm" poster="journey-poster.png" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video></div><div class="brand"><b id="bt">Command Center - SCADA</b><span id="bs">UIW Papua dan Papua Barat</span></div><h1 id="ht">Dashboard Kinerja dan Administrasi Command Center</h1><p id="hp"></p></header>
 <div id="fl" aria-hidden="true"></div>
@@ -2286,6 +2298,7 @@ select option{background:var(--pan-solid);color:var(--ink)}
 .day:hover:not(.sel):not(.lock):not(.off):not(.oth){border-color:var(--mint2);background:var(--hov)}
 .day.oth{opacity:.35;cursor:default}
 .day.today b{background:var(--g-mint);color:var(--on-mint)!important}
+.day.past{opacity:.38;cursor:not-allowed}
 .day.off{background:repeating-linear-gradient(135deg,var(--hatch-a) 0 6px,var(--hatch-b) 6px 12px);cursor:not-allowed}
 .day.off b,.day.off small{color:var(--mut)}
 .day.off.today b{color:var(--on-mint)}
@@ -2801,6 +2814,7 @@ function validShift(set){
 function locked(d){const t=new Set(S.sel);t.add(iso(d));return !validShift(t)}
 function status(d){
   const k=iso(d);
+  if(k<iso(new Date()))return'past';
   if(S.sel.has(k))return'sel';
   if(isCal())return'ok';
   if(!shift()){const wk=d.getDay()==0||d.getDay()==6;if(wk||hday(k))return'off';return'ok'}
@@ -2808,6 +2822,7 @@ function status(d){
 }
 function renderCal(){
   const{y,m}=S.view;ensureYear(y);
+  {const t0=iso(new Date());[...S.sel].forEach(k=>{if(k<t0)S.sel.delete(k)})}
   if(!shift()&amp;&amp;!isCal()){[...S.sel].forEach(k=>{const d=dt(k),w=d.getDay();if(w==0||w==6||hday(k))S.sel.delete(k)})}
   $('#calT').textContent=BLN[m]+' '+y;$('#mSel').value=m;$('#ySel').value=y;
   const first=new Date(y,m,1),start=add(first,-((first.getDay()+6)%7));
@@ -2817,7 +2832,7 @@ function renderCal(){
     const d=add(start,i),k=iso(d),oth=d.getMonth()!=m,st=status(d),wk=d.getDay()==0||d.getDay()==6;
     if(!oth){if(st=='lock')lk++;if(st=='off')off++}
     const hd=hday(k),tp=hd?hd[1]:'',cls=['day',oth?'oth':'',wk?'w':'',tp=='n'?'h':tp?'c':'',k==iso(new Date())?'today':'',st=='ok'?'':st].join(' ');
-    const lab=st=='sel'?'Cuti':st=='lock'?'🔒 Lock':hd?({n:'Libur Nas.',c:'Cuti Bersama',f:'Fakultatif'})[tp]:(st=='off'||wk)?'Akhir pekan':'Buka';
+    const lab=st=='past'?'Lewat':st=='sel'?'Cuti':st=='lock'?'🔒 Lock':hd?({n:'Libur Nas.',c:'Cuti Bersama',f:'Fakultatif'})[tp]:(st=='off'||wk)?'Akhir pekan':'Buka';
     h+=`<div class=&quot;${cls}&quot; data-k=&quot;${k}&quot; title=&quot;${esc(hd?hd[0]:'')}&quot;><b>${d.getDate()}</b><small>${lab}</small></div>`;
   }
   $('#cal').innerHTML=h;
@@ -2831,6 +2846,7 @@ function renderCal(){
 }
 function trySel(d,quiet){
   const k=iso(d),st=status(d);
+  if(st=='past'){if(!quiet)toast('Tanggal yang sudah lewat terkunci. Pilih mulai hari ini.');return false}
   if(st=='lock'){if(!quiet)toast('Shift: maksimal 6 hari berturut-turut, lalu 2 hari berikutnya tidak bisa dipilih.');return false}
   if(st=='off'){if(!quiet)toast('Nonshift: Sabtu, Minggu, libur nasional, cuti bersama, dan libur fakultatif tidak bisa dipilih.');return false}
   if(S.sel.size>=limit()){if(!quiet)toast(`Maksimal ${limit()} hari cuti.`);return false}
@@ -2838,6 +2854,7 @@ function trySel(d,quiet){
 }
 $('#cal').addEventListener('click',e=>{
   const c=e.target.closest('.day');if(!c||c.classList.contains('oth'))return;
+   if(c.classList.contains('past')){toast('Tanggal yang sudah lewat terkunci. Pilih mulai hari ini.');return}
   const k=c.dataset.k;
   if(isCal()){
     const R=rule(),MLH=R.q;
@@ -3793,8 +3810,7 @@ setInterval(()=>{if(busy&&!document.querySelector('.mph')){busy=false}},1500);
 (function(){
  var rt=document.documentElement,hd=document.querySelector('header'),hr=document.getElementById('hr'),
      nav=document.getElementById('bnav'),dsh=document.getElementById('dsh');
- if(hr)hr.hidden=true;                       /* video header tidak ikut dibundel di aplikasi */
- function m(){rt.style.setProperty('--hh',hd.offsetHeight+'px')}
+  function m(){rt.style.setProperty('--hh',hd.offsetHeight+'px')}
  m();addEventListener('resize',m);addEventListener('orientationchange',m);
  if(window.ResizeObserver)new ResizeObserver(m).observe(hd);
  setTimeout(function(){dispatchEvent(new Event('resize'))},60);

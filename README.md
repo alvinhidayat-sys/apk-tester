@@ -20,13 +20,21 @@ HTML dimuat dari `app/src/main/assets/index.html`.
 Ganti `app/src/main/assets/index.html` dengan HTML terbaru, naikkan `versionCode`/`versionName`
 di `app/build.gradle`, lalu build ulang.
 
-## Tampilan v1.1
+## Tampilan v1.4
 - Landing page: kartu menu hanya ilustrasi + nama menu, 2 kolom x 3 baris pas satu layar (tanpa skrol; landscape/tablet menyesuaikan).
 - Header: teks "Command Center - SCADA".
 - Bottom bar: Beranda, Durasi (CTT / Marking / Dispatch), Callback, Cuti, Absensi, Tema.
-- Welcome screen "The Legacy of" + logo KITA selama ±1,5 detik saat aplikasi dibuka.
+- Welcome screen "The Legacy of" + logo KITA selama 3 detik saat aplikasi dibuka.
 - Latar belakang bergaya panel SCADA (grid halus + cahaya), mengikuti tema terang/gelap.
-- Video header (journey.webm) tidak ikut dibundel sehingga disembunyikan.
+- Video header "Journey to the Next Level" (journey.webm + journey-poster.png) dibundel di assets dan tampil di kanan header.
+
+## Kunci tanggal mundur (backdate)
+- Rekap Absensi dan Lembur: tanggal sebelum hari ini terkunci (`LOCK_PAST=true` di dalam index.html).
+- Pengajuan Cuti: kalender tidak bisa memilih tanggal sebelum hari ini (tampil pudar, label "Lewat").
+- Pengecekan memakai tanggal di HP; pastikan tanggal & jam HP diatur otomatis.
+
+## Mengubah durasi welcome screen
+Di `app/src/main/assets/index.html` cari `3000-(Date.now()` (angka 3000 = 3 detik). Batas paksa tertutup ada di `setTimeout(go,5000)`.
 
 ## Fitur native yang ditambahkan
 - Unduhan Excel/PDF/Word (blob) otomatis tersimpan ke folder **Download** dan langsung dibuka.
@@ -39,4 +47,5 @@ di `app/build.gradle`, lalu build ulang.
 ## Catatan
 - Aplikasi memerlukan internet (Google Apps Script, Google Sheet, dan pustaka CDN: xlsx, exceljs, Chart.js, jsPDF, font).
 - APK yang dihasilkan bertanda tangan debug: aman untuk dibagikan internal. Untuk Google Play perlu build release + keystore sendiri.
-- Nama aplikasi: `app/src/main/res/values/strings.xml`. Ikon: logo ND dari HTML (`res/mipmap-*`).
+- Nama aplikasi: "CALIBRA CC-DCC P2B" (`app/src/main/res/values/strings.xml`).
+- Ikon: Blue_Analytics_C_Icon (transparan, tanpa area putih) di `res/mipmap-*`; latar ikon adaptive di `res/drawable/ic_launcher_background.xml`.
