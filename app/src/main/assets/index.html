@@ -288,23 +288,28 @@ body>.kita-legacy{display:none!important}
 
 /* header ringkas (video header tetap tampil di kanan) */
 header{overflow-x:clip}
+header::after{bottom:-6px!important}
 @media(max-width:640px){
  :root{--hw:clamp(96px,29vw,124px)}
- header{padding:12px 14px 10px}
- .hero{top:8px;right:12px}
- .brand{padding-bottom:6px;margin-bottom:8px;min-height:calc(var(--hw)*9/16 + 2px)}
+ header{padding:12px 14px 12px}
+ .hero{top:12px!important;right:14px;transform:none}
+ .brand{padding-bottom:0;margin-bottom:12px;min-height:calc(var(--hw)*9/16);justify-content:center}
+ .brand::after{bottom:-6px}
  .brand b{font-size:clamp(14.5px,4.1vw,24px)}
  .brand span{font-size:clamp(10.5px,3.1vw,13px);margin-top:2px}
- .brand+h1{font-size:clamp(12px,3.7vw,16px)}
+ .brand+h1{font-size:clamp(11px,3.45vw,16px)}
 }
 @media(orientation:landscape) and (max-height:520px){
  :root{--hw:104px}
- header{padding:8px calc(var(--hw) + 30px) 6px 16px}
- .hero{right:14px}
- .brand{min-height:0;padding-bottom:4px;margin-bottom:4px}
+ header{padding:8px calc(var(--hw) + 30px) 8px 16px}
+ .hero{top:8px!important;right:14px;transform:none}
+ .brand{min-height:calc(var(--hw)*9/16);justify-content:center;padding-bottom:0;margin-bottom:8px}
+ .brand::after{bottom:-4px}
  .brand b{font-size:22px}
  .brand+h1{font-size:13px}
 }
+html.kb #bnav,html.kb #dsh{display:none!important}
+html.kb{--nav:0px}
 
 /* landing: hanya ilustrasi + nama menu, pas satu layar */
 #home{display:flex;flex-direction:column;min-height:calc(100dvh - var(--hh));
@@ -369,7 +374,7 @@ main#app,main#cb{padding-bottom:calc(var(--nav) + 28px + env(safe-area-inset-bot
 function chk(){setTimeout(go,Math.max(0,3000-(Date.now()-t0)))}
 if(document.readyState==='complete')chk();else addEventListener('load',chk);setTimeout(go,5000)})();</script>
 
-<header><a class="btnlink hback" id="hbk" href="#" aria-label="Kembali ke Beranda"><span class="bk">←</span><span class="bt"> Kembali ke Beranda</span></a><div class="hero" id="hr"><video id="hv" src="journey.webm" poster="journey-poster.png" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video></div><div class="brand"><b id="bt">Command Center - SCADA</b><span id="bs">UIW Papua dan Papua Barat</span></div><h1 id="ht">Dashboard Kinerja dan Administrasi Command Center</h1><p id="hp"></p></header>
+<header><a class="btnlink hback" id="hbk" href="#" aria-label="Kembali ke Beranda"><span class="bk">←</span><span class="bt"> Kembali ke Beranda</span></a><div class="hero" id="hr"><video id="hv" src="journey.webm" poster="journey-poster.png" autoplay muted loop playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1"></video></div><div class="brand"><b id="bt">Command Center - SCADA</b><span id="bs">UIW Papua dan Papua Barat</span></div><h1 id="ht">Selamat Datang di Perjalanan menuju Level Selanjutnya</h1><p id="hp"></p></header>
 <div id="fl" aria-hidden="true"></div>
 <div class="kita-legacy" aria-hidden="true"><b>The Legacy of</b><i></i></div>
 <main id="home">
@@ -702,6 +707,44 @@ select:disabled,input:disabled{opacity:.6}
 .kita-legacy i{display:block;width:92px;height:46px;background:var(--kl) center/contain no-repeat}
 @media(max-width:640px){.kita-legacy{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));gap:6px}.kita-legacy b{font-size:9.5px}.kita-legacy i{width:72px;height:36px}}
 @media print{.kita-legacy{display:none!important}}
+</style><style id=&quot;appui-abs&quot;>
+/* ===== aplikasi: popup input Absensi &amp; Lembur ===== */
+#ufrm td:first-child,#ufrm th:first-child{position:sticky;left:0;background:var(--card);z-index:1;min-width:110px;max-width:130px;white-space:normal;line-height:1.2;box-shadow:inset -2px 0 0 var(--bd)}
+#ufrm th:first-child{z-index:3;background:var(--bg)}
+#frm td:first-child,#afrm td:first-child{box-shadow:inset -2px 0 0 var(--bd)}
+.uinfo{font-weight:700;font-size:13px;padding:0 4px;min-height:18px}
+.ft{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:2px}
+.ft button{flex:0 0 min(42%,170px);height:46px;padding:0 12px;font-size:15px;font-weight:700;border-radius:99px;white-space:nowrap}
+#mU .chips,#modal .chips,#mA .chips{font-size:10.5px;line-height:1.35;max-width:100%}
+#mU #udet{min-height:0;font-size:12px;line-height:1.4}
+#mU .ed>b{display:none}
+#mU .ed{gap:5px;padding:6px 8px;align-items:flex-end;flex-wrap:wrap}
+#mU .ed label{flex:1 1 60px;min-width:0}
+#mU .ed label>span{display:block;font-size:10.5px;line-height:1.1;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#mU .ed select{min-width:0;width:100%;height:38px;padding:0 6px;font-size:13.5px}
+#mU .ed button{flex:0 0 auto;height:38px;padding:0 8px;font-size:12px;white-space:nowrap}
+#mU #uAlsT{width:100%;min-width:0}
+@media(max-width:760px){
+ .ft{position:sticky;bottom:0;padding-top:6px;background:var(--card);z-index:5}
+ #umt{flex:1 1 0;min-width:0;font-size:12.5px;line-height:1.25}
+ #mU .box>div:first-child>.sp{display:none}
+ #uwarn:empty{display:none}
+ #uSync{flex:0 0 auto}
+ #mU.ov,#modal.ov,#mA.ov{padding:calc(var(--hb,0px) + 6px) 6px 6px}
+ #mU .box,#modal .box,#mA .box{height:100%;max-height:100%;padding:8px 10px 10px;gap:5px}
+ #mU #uSync,#modal .box>div>button,#mA .box>div>button:not(.pr){height:34px;padding:0 10px;font-size:12px}
+ #mU .box>*,#modal .box>*,#mA .box>*{flex:0 0 auto}
+ #mU .box>.wrap,#modal .box>.wrap,#mA .box>.wrap{flex:1 1 auto;min-height:190px;max-height:none}
+ #ufrm td:first-child,#ufrm th:first-child{min-width:104px;max-width:118px}
+}
+@media(max-width:760px) and (max-height:680px){
+ #uchips{display:none}
+ #mU .box>.wrap,#modal .box>.wrap,#mA .box>.wrap{min-height:150px}
+}
+/* keyboard terbuka: form login diberi ruang */
+html.kb .lp{--mh:0px}
+html.kb .sc>svg{display:none!important}
+html.kb .lgTitle,html.kb .lgSt{display:none!important}
 </style></head><body>
 <div class=&quot;kita-legacy&quot; aria-hidden=&quot;true&quot;><b>The Legacy of</b><i></i></div>
 
@@ -854,22 +897,21 @@ select:disabled,input:disabled{opacity:.6}
   <button id=&quot;eDel&quot; disabled>Hapus isi</button>
  </div>
  <div class=&quot;chips&quot; id=&quot;det&quot;></div>
- <div style=&quot;display:flex;gap:8px;justify-content:space-between;align-items:center&quot;><span class=&quot;chips&quot;>Panah = pindah sel · Delete = hapus isi · Enter = ke dropdown Tipe Lembur</span>
- <span><button id=&quot;bX&quot;>Batal</button> <button class=&quot;pr&quot; id=&quot;bS&quot;>Simpan</button></span></div>
+ <div class=&quot;ft&quot;><button id=&quot;bX&quot;>Batal</button><button class=&quot;pr&quot; id=&quot;bS&quot;>Simpan</button></div>
 </div></div>
 
 <!-- FORM TERPADU ABSENSI + LEMBUR -->
 <div class=&quot;ov&quot; id=&quot;mU&quot;><div class=&quot;box&quot;>
  <div style=&quot;display:flex;gap:10px;align-items:center;flex-wrap:wrap&quot;><b id=&quot;umt&quot;></b><span class=&quot;sp&quot;></span><span class=&quot;chips&quot; id=&quot;uwarn&quot;></span><button id=&quot;uSync&quot; title=&quot;Isi absensi otomatis dari kode lembur yang shift-nya belum tercatat&quot;>⟳ Sinkronkan</button></div>
  <div class=&quot;chips&quot; id=&quot;uchips&quot;></div>
+ <div class=&quot;uinfo&quot;><span id=&quot;uInfo&quot;>Klik sel pada tabel</span></div>
  <div class=&quot;wrap&quot;><table id=&quot;ufrm&quot;></table></div>
  <div class=&quot;ed&quot;>
-  <span id=&quot;uInfo&quot;>Klik sel pada tabel</span>
   <label><span><b>1</b> Absensi</span><select id=&quot;uKode&quot; disabled></select></label>
   <label id=&quot;ulKet&quot; hidden><span><b>1b</b> Surat Dokter</span><select id=&quot;uKet&quot;></select></label>
   <span id=&quot;uExtra&quot;></span>
-  <button id=&quot;uAdd&quot; disabled title=&quot;Klik sel yang sudah terisi (dipilih kembali) untuk menambah shift&quot;>＋ Tambah Shift</button>
-  <button id=&quot;uDel&quot; disabled>Hapus isi</button>
+  <button id=&quot;uAdd&quot; disabled title=&quot;Klik sel yang sudah terisi (dipilih kembali) untuk menambah shift&quot;>＋ Shift</button>
+  <button id=&quot;uDel&quot; disabled title=&quot;Hapus isi sel (absensi)&quot;>Hapus</button>
   <button class=&quot;pr&quot; id=&quot;uSaveA&quot; disabled title=&quot;Terapkan Absensi ke tabel&quot;>Simpan Shift</button>
  </div>
  <div class=&quot;ed&quot;>
@@ -878,12 +920,11 @@ select:disabled,input:disabled{opacity:.6}
   <label><span><b>3</b> Kode</span><select id=&quot;uLKode&quot; disabled></select></label>
   <label id=&quot;ulJam&quot; hidden><span><b>4</b> Jam lembur</span><select id=&quot;uJam&quot;></select></label>
   <label id=&quot;ulAls&quot; hidden><span><b>5</b> Alasan Lembur</span><select id=&quot;uAls&quot;></select><input id=&quot;uAlsT&quot; placeholder=&quot;Ketik alasan, mis. operator yang sedang sakit&quot; hidden></label>
-  <button id=&quot;uLDel&quot; disabled>Hapus lembur</button>
+  <button id=&quot;uLDel&quot; disabled title=&quot;Hapus lembur pada sel ini&quot;>Hapus</button>
   <button class=&quot;pr&quot; id=&quot;uSaveL&quot; disabled title=&quot;Aktif jika semua kolom lembur sudah terisi&quot;>Simpan Shift</button>
  </div>
  <div class=&quot;chips&quot; id=&quot;udet&quot;></div>
- <div style=&quot;display:flex;gap:8px;justify-content:space-between;align-items:center&quot;><span class=&quot;chips&quot;>Panah = pindah sel · Delete = hapus isi · Enter = ke dropdown Absensi · isi lalu klik Simpan Shift (menerapkan ke tabel) · tombol Simpan = kirim Absensi + Lembur ke server</span>
- <span><button id=&quot;ubX&quot;>Batal</button> <button class=&quot;pr&quot; id=&quot;ubS&quot;>Simpan</button></span></div>
+ <div class=&quot;ft&quot;><button id=&quot;ubX&quot;>Batal</button><button class=&quot;pr&quot; id=&quot;ubS&quot;>Simpan</button></div>
 </div></div>
 
 <!-- PILIH OUTPUT -->
@@ -917,8 +958,7 @@ select:disabled,input:disabled{opacity:.6}
   <button id=&quot;aeDel&quot; disabled>Hapus isi</button>
  </div>
  <div class=&quot;chips&quot; id=&quot;adet&quot;></div>
- <div style=&quot;display:flex;gap:8px;justify-content:space-between;align-items:center&quot;><span class=&quot;chips&quot;>Panah = pindah sel · Delete = hapus isi · Enter = ke dropdown Kode</span>
- <span><button id=&quot;abX&quot;>Batal</button> <button class=&quot;pr&quot; id=&quot;abS&quot;>Simpan</button></span></div>
+ <div class=&quot;ft&quot;><button id=&quot;abX&quot;>Batal</button><button class=&quot;pr&quot; id=&quot;abS&quot;>Simpan</button></div>
 </div></div>
 
 <!-- PILIH EXPORT ABSENSI -->
@@ -2442,6 +2482,15 @@ tr.pick td{background:rgba(0,143,199,.2)}
 .kita-legacy i{display:block;width:92px;height:46px;background:var(--kl) center/contain no-repeat}
 @media(max-width:640px){.kita-legacy{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));gap:6px}.kita-legacy b{font-size:9.5px}.kita-legacy i{width:72px;height:36px}}
 @media print{.kita-legacy{display:none!important}}
+</style><style id=&quot;appui-cuti&quot;>
+/* ===== aplikasi: Pengajuan Cuti ===== */
+.brandr{display:none!important}
+@media(max-width:900px){
+ .topr{position:absolute;top:6px;right:14px;margin:0;z-index:5}
+ main{padding-top:10px}
+ main>section>h1,main>section>.sub{padding-right:48px}
+ html.kb nav{display:none!important}
+}
 </style></head>
 <body>
 <div class=&quot;kita-legacy&quot; aria-hidden=&quot;true&quot;><b>The Legacy of</b><i></i></div>
@@ -3336,7 +3385,7 @@ const MENUS={
  dispatch:{pre:'Dispatch',t:'Rekap Durasi Manual Dispatch',p:'Durasi laporan masuk ke APKT hingga diteruskan oleh Operator Command Center ke petugas di lapangan (MANUAL COMMAND CENTER), diperbarui otomatis setiap 2 menit',
   load:()=>loadP2(h=>({kk:col(h,['ketkirim'],'KET_KIRIM'),pg:col(h,['tglpenugasanregu'],'TGL_PENUGASAN_REGU'),ro:col(h,['tglreturnorder'],'TGL_RETURN_ORDER'),by:colo(h,['dispatchby'])}),(x,c)=>nrm(x[c.kk])=='MANUAL COMMAND CENTER',calcP,'DISPATCH_BY'),
   ok:'Sudah terhitung',bad:'Belum terhitung',okS:'terhitung',avgL:'Rata-rata durasi manual dispatch (menit)',by:'Dispatch',DH:DH_P,SL:SL_N,det:detP,DX:DX_P,dtx:detXP,RH:RH_N,min:true}};
-function home(){cur=null;$('home').hidden=false;$('app').hidden=true;$('cb').hidden=true;$('md').hidden=true;$('ht').textContent='Dashboard Kinerja dan Administrasi Command Center';$('hp').textContent='';document.title='Dashboard Kinerja dan Administrasi Command Center';window.scrollTo(0,0)}
+function home(){cur=null;$('home').hidden=false;$('app').hidden=true;$('cb').hidden=true;$('md').hidden=true;$('ht').textContent='Selamat Datang di Perjalanan menuju Level Selanjutnya';$('hp').textContent='';document.title='Dashboard Kinerja dan Administrasi Command Center';window.scrollTo(0,0)}
 function enter(k){if(cur==k&&!$('app').hidden)return;const g=MENUS[k];cur=k;CG=g;DH=g.DH;SL=g.SL;detRow=g.det;DX=g.DX;detX=g.dtx;RH=g.RH;MM=g.min;RN=g.min?[3,4,5]:[3];
  $('ht').textContent=g.t;$('hp').textContent=g.p;document.title=g.t;$('home').hidden=true;$('app').hidden=false;$('cb').hidden=true;
  tab='R';lim=200;open.clear();CH.sel=null;$('tR').classList.add('on');$('tD').classList.remove('on');
@@ -3822,6 +3871,23 @@ setInterval(()=>{if(busy&&!document.querySelector('.mph')){busy=false}},1500);
  dsh.addEventListener('click',function(e){if(e.target.closest('a'))closeSheet()});
  document.getElementById('btema').addEventListener('click',function(){var b=document.getElementById('thm');if(b)b.click()});
  addEventListener('hashchange',function(){closeSheet();act()});act();
+ /* keyboard layar terbuka: sembunyikan bottom bar, beri tahu sub-aplikasi (login tidak terpotong) */
+ var maxH=innerHeight,lastW=innerWidth;
+ function frames(on){document.querySelectorAll('iframe').forEach(function(f){try{f.contentDocument.documentElement.classList.toggle('kb',on)}catch(e){}})}
+ function kbCheck(){
+  if(innerWidth!==lastW){lastW=innerWidth;maxH=innerHeight}
+  if(innerHeight>maxH)maxH=innerHeight;
+  var on=innerHeight<maxH*0.78;
+  if(rt.classList.contains('kb')!==on){rt.classList.toggle('kb',on);frames(on)}
+ }
+ addEventListener('resize',kbCheck);
+ document.addEventListener('load',function(e){var x=e.target;if(x&&x.tagName==='IFRAME'&&rt.classList.contains('kb'))frames(true)},true);
+ /* sub judul sejajar kiri-kanan dengan judul (di Beranda) */
+ function fitSub(){try{if(!rt.classList.contains('hmenu')&&window.fitBrand)window.fitBrand()}catch(e){}}
+ addEventListener('resize',fitSub);
+ addEventListener('load',function(){fitSub();setTimeout(fitSub,400);setTimeout(fitSub,1500);setTimeout(fitSub,4000)});
+ if(document.fonts){if(document.fonts.ready)document.fonts.ready.then(fitSub);if(document.fonts.addEventListener)document.fonts.addEventListener('loadingdone',fitSub)}
+ fitSub();
 })();
 </script>
 </body></html>

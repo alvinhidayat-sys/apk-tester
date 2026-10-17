@@ -20,13 +20,19 @@ HTML dimuat dari `app/src/main/assets/index.html`.
 Ganti `app/src/main/assets/index.html` dengan HTML terbaru, naikkan `versionCode`/`versionName`
 di `app/build.gradle`, lalu build ulang.
 
-## Tampilan v1.4
+## Tampilan v1.5
 - Landing page: kartu menu hanya ilustrasi + nama menu, 2 kolom x 3 baris pas satu layar (tanpa skrol; landscape/tablet menyesuaikan).
 - Header: teks "Command Center - SCADA".
 - Bottom bar: Beranda, Durasi (CTT / Marking / Dispatch), Callback, Cuti, Absensi, Tema.
 - Welcome screen "The Legacy of" + logo KITA selama 3 detik saat aplikasi dibuka.
 - Latar belakang bergaya panel SCADA (grid halus + cahaya), mengikuti tema terang/gelap.
 - Video header "Journey to the Next Level" (journey.webm + journey-poster.png) dibundel di assets dan tampil di kanan header.
+
+## Perubahan v1.5
+- Beranda: sub judul sejajar kiri-kanan dengan "Command Center - SCADA"; logo animasi sejajar dengan teks; teks sambutan "Selamat Datang di Perjalanan menuju Level Selanjutnya"; garis warna tepat di batas bawah header.
+- Popup input Absensi-Lembur: tabel dominan, kolom nama menempel di kiri, baris Absensi dan Lembur masing-masing satu baris, Batal (kiri) dan Simpan (kanan) berjarak, keterangan kiri-bawah dihapus.
+- Login Absensi: bottom bar disembunyikan dan ilustrasi diperkecil saat keyboard muncul agar form tidak terpotong.
+- Pengajuan Cuti: teks "Command Center - DCC ..." dihapus, judul dan keterangan naik ke atas.
 
 ## Kunci tanggal mundur (backdate)
 - Rekap Absensi dan Lembur: tanggal sebelum hari ini terkunci (`LOCK_PAST=true` di dalam index.html).
@@ -47,5 +53,5 @@ Di `app/src/main/assets/index.html` cari `3000-(Date.now()` (angka 3000 = 3 deti
 ## Catatan
 - Aplikasi memerlukan internet (Google Apps Script, Google Sheet, dan pustaka CDN: xlsx, exceljs, Chart.js, jsPDF, font).
 - APK yang dihasilkan bertanda tangan debug: aman untuk dibagikan internal. Untuk Google Play perlu build release + keystore sendiri.
-- Nama aplikasi: "CALIBRA CC-DCC P2B" (`app/src/main/res/values/strings.xml`).
-- Ikon: Blue_Analytics_C_Icon (transparan, tanpa area putih) di `res/mipmap-*`; latar ikon adaptive di `res/drawable/ic_launcher_background.xml`.
+- Nama aplikasi: "COMSCA" (`app/src/main/res/values/strings.xml`).
+- Ikon: logo COMSCA di `res/mipmap-*`; warna latar ikon adaptive (putih) di `res/drawable/ic_launcher_background.xml`.
